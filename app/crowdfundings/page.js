@@ -3,6 +3,7 @@ import CrowdfundingsDisplay from '../components/CrowdfundingsDisplay'
 import Footer from '../components/Footer'
 import ButtonsDisplay from '../components/ButtonsDisplay'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Suspense } from 'react';
 
 export default function Crowdfundings() {
 
@@ -29,7 +30,9 @@ export default function Crowdfundings() {
 
             <h2 className='text-4xl lg:leading-normal lg:text-6xl max-w-[500px] lg:max-w-[800px] font-bold m-auto text-center my-16'>Fund the best Web3 proyects in the blockchain ecosystem</h2>
 
-            <CrowdfundingsDisplay />
+            <Suspense>
+                <CrowdfundingsDisplay />
+            </Suspense>
 
             <Footer />
 
