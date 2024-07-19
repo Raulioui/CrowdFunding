@@ -11,12 +11,12 @@ import {useMetaMask} from "../../../context/Web3Connect"
 export default function crowdfundingRequests() {
     const [requests, setRequests] = useState([])
     const [requestsConfirmed, setRequestsConfirmed] = useState([])
-    const {signer} = useMetaMask()
+    const {provider} = useMetaMask()
 
     const [loading, setLoading] = useState(true)
 
     async function getCrowdfudningsRequests() {
-        const contract = new ethers.Contract("0x1c5fc443B990002d34d7711Ddcc3C436C9219826", quequeAbi, signer);
+        const contract = new ethers.Contract("0x1c5fc443B990002d34d7711Ddcc3C436C9219826", quequeAbi, provider);
 
         const filterRequests = contract.filters.ProyectRequested()
         const eventsRequests = await contract.queryFilter(filterRequests)
@@ -26,16 +26,18 @@ export default function crowdfundingRequests() {
 
         setRequestsConfirmed(requestsConfirmed)
         setRequests(eventsRequests)
-        setLoading(false)
+        
     }
 
     useEffect(() => {
         getCrowdfudningsRequests()
-    },[])
+        setLoading(false)
+    },[provider])
+
+    if(loading) return <Loader />
 
     return (
         <div>
-            {loading ? (<Loader />) : (
                 <div className="p-8  w-[95%] lg:w-[70%] m-auto">
                     <Link href="../crowdfundings">
                         <ArrowBackIcon />
@@ -60,7 +62,6 @@ export default function crowdfundingRequests() {
                         </div>
                     )}
                 </div>
-            )}
         </div>
     )
 }
