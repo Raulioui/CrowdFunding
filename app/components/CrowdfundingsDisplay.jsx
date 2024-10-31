@@ -39,6 +39,7 @@ export default function Crowdfundings() {
                 const filterExecuted = contract.filters.ProyectExecuted()
                 const eventsExecuted = await contract.queryFilter(filterExecuted)
                 setRequestsExecuted(eventsExecuted)
+                console.log(eventsExecuted)
                 setLoading(false)
             }
         }, 1000) 
