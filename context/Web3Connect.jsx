@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ethers } from 'ethers';
+import { JsonRpcProvider } from 'ethers';
 
 const MetaMaskContext = createContext();
 
@@ -11,7 +12,7 @@ export const MetaMaskProvider = ({ children }) => {
 
     const connect = async () => {
         if (typeof window !== "undefined" && window.ethereum) {
-            const browserProvider = new ethers.BrowserProvider(window.ethereum);
+            const browserProvider = new JsonRpcProvider("https://eth-sepolia.g.alchemy.com/v2/-qVqxEJQ4_RaXuaz7iEZckBmQ9t1rnHk");
             setProvider(browserProvider);
             const signer = await browserProvider.getSigner();
             const address = await signer.getAddress()

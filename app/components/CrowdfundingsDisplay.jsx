@@ -9,7 +9,6 @@ import { ethers } from 'ethers'
 import SearchIcon from '@mui/icons-material/Search';
 import {useMetaMask} from '../../context/Web3Connect'
 
-
 export default function Crowdfundings() {
     const searchParams = useSearchParams()
     const pathName = usePathname()
@@ -39,7 +38,6 @@ export default function Crowdfundings() {
                 const filterExecuted = contract.filters.ProyectExecuted()
                 const eventsExecuted = await contract.queryFilter(filterExecuted)
                 setRequestsExecuted(eventsExecuted)
-                console.log(eventsExecuted)
                 setLoading(false)
             }
         }, 1000) 
