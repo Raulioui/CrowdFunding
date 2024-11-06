@@ -17,7 +17,7 @@ export default function Crowdfundings() {
 
     const [requestsExecuted, setRequestsExecuted] = useState([])
     const [param, setParam] = useState("")
-    const { provider } = useMetaMask()
+    const { alchemyProvider } = useMetaMask()
 
     const handleSearch = useDebouncedCallback((string) => {
         const param = new URLSearchParams(searchParams)
@@ -32,9 +32,8 @@ export default function Crowdfundings() {
 
     const retrieveData = () => {
         setTimeout(async () => {
-            if(provider) {
-                const contract = new ethers.Contract("0x1c5fc443B990002d34d7711Ddcc3C436C9219826", quequeAbi, provider);
-            
+            if(alchemyProvider) {
+                const contract = new ethers.Contract("0x1c5fc443B990002d34d7711Ddcc3C436C9219826", quequeAbi, alchemyProvider);
                 const filterExecuted = contract.filters.ProyectExecuted()
                 const eventsExecuted = await contract.queryFilter(filterExecuted)
                 setRequestsExecuted(eventsExecuted)
@@ -45,7 +44,7 @@ export default function Crowdfundings() {
 
     useEffect(() => { 
         retrieveData()
-    },[provider]) 
+    },[alchemyProvider]) 
  
     return(
         <div>

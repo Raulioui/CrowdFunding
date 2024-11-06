@@ -10,12 +10,12 @@ export default function grants() {
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState([])
 
-    const { provider } = useMetaMask()
+    const { alchemyProvider } = useMetaMask()
 
     const retrieveData = () => {
         setTimeout(async () => {
-            if(provider) {
-                const contract = new ethers.Contract("0x4402f4cAF0912431C60e9528D1e365cb3d16d208", factoryAbi, provider);
+            if(alchemyProvider) {
+                const contract = new ethers.Contract("0x4402f4cAF0912431C60e9528D1e365cb3d16d208", factoryAbi, alchemyProvider);
   
                 const filter = contract.filters.GrantCreated()
                 const events = await contract.queryFilter(filter)
@@ -28,7 +28,7 @@ export default function grants() {
 
     useEffect(() => {
         retrieveData();
-    }, [provider])
+    }, [alchemyProvider])
 
     return(
         <div>

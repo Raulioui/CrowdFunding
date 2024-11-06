@@ -7,6 +7,7 @@ import Loader from "../../../components/Loader"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import GrantComponent from "../../../components/GrantComponent"
 import Link from "next/link"
+import {useMetaMask} from "../../../../context/Web3Connect"
 
 export default function Page({params}) {
     const { id } = params
@@ -14,15 +15,15 @@ export default function Page({params}) {
     const [loading, setLoading] = useState(true)
     const [proyectsInQueque, setProyectsInQueque] = useState([])
     const [quequeAddress, setQuequeAddress] = useState()
+    const {alchemyProvider} = useMetaMask()
     
     async function retrieveData() {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const grant = new ethers.Contract(id, grantAbi, provider)
+        const grant = new ethers.Contract(id, grantAbi, alchemyProvider)
         const filterProyectsExecuted = grant.filters.ProyectAccepted()
         const proyectsExecuted = await grant.queryFilter(filterProyectsExecuted)
         const quequeAddress = await grant.queque()
     
-        const queque = new ethers.Contract(quequeAddress, grantQuequeAbi, provider)
+        const queque = new ethers.Contract(quequeAddress, grantQuequeAbi, alc)
         const filterProyectsInQueque = queque.filters.ProyectRequested()
         const quequeProyects = await queque.queryFilter(filterProyectsInQueque)
         const proyectsInQueque = quequeProyects.filter(p => {

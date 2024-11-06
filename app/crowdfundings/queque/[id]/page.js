@@ -8,6 +8,7 @@ import { useNotification } from '@web3uikit/core'
 import Loader from "../../../components/Loader"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Link from "next/link";
+import {useMetaMask} from "../../../../context/Web3Connect"
 
 export default function page({params}) {
     const { id } = params
@@ -17,7 +18,9 @@ export default function page({params}) {
 
     const [requestId, setRequestId] = useState(0)
     const [target, setTarget] = useState(0)
-    const [owner, setOwner] = useState("")
+    const [owner, setOwner] = useState("")  
+
+    const {alchemyProvider, signer} = useMetaMask()
 
     const dispatch = useNotification()
 
@@ -29,8 +32,7 @@ export default function page({params}) {
         const res = await fetch(`https://ipfs.io/ipfs/${hashStr}`)
         const data = await res.json(); 
 
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const contract = new ethers.Contract("0x1c5fc443B990002d34d7711Ddcc3C436C9219826", quequeAbi, provider);
+        const contract = new ethers.Contract("0x1c5fc443B990002d34d7711Ddcc3C436C9219826", quequeAbi, alchemyProvider);
         
         const filterRequests = contract.filters.ProyectRequested()
         const eventsVotes = await contract.queryFilter(filterRequests)
@@ -46,8 +48,6 @@ export default function page({params}) {
 
     async function handleApprove(id) {
         setLoading(true)
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const signer = await provider.getSigner()
         const contract = new ethers.Contract ("0x1c5fc443B990002d34d7711Ddcc3C436C9219826", quequeAbi, signer);
         
         const tx = await contract.confirmTransaction(id)

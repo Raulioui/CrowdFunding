@@ -50,7 +50,7 @@ export default function page({params}) {
     const [balance, setBalance] = useState(0)
     const [target, setTarget] = useState(0)
     const [owner, setOwner] = useState()
-    const { address, provider, signer } = useMetaMask()
+    const { address, signer, alchemyProvider } = useMetaMask()
 
     const [userDonations, setUserDonations] = useState(0)
 
@@ -67,7 +67,7 @@ export default function page({params}) {
        const res = await fetch(`https://ipfs.io/ipfs/${hashStr}`)
        const data = await res.json(); 
 
-       const contract = new ethers.Contract("0x1c5fc443B990002d34d7711Ddcc3C436C9219826", quequeAbi, provider);
+       const contract = new ethers.Contract("0x1c5fc443B990002d34d7711Ddcc3C436C9219826", quequeAbi, alchemyProvider);
         
        const filter = contract.filters.ProyectExecuted()
        const events = await contract.queryFilter(filter)
@@ -75,9 +75,9 @@ export default function page({params}) {
        const crowdfunding = events.find((r) => r?.args[4] === hash)
        setCrowdfunding(crowdfunding)
       
-       const contractPair = new ethers.Contract(crowdfunding?.args.pair, crowdfundingAbi, provider)
+       const contractPair = new ethers.Contract(crowdfunding?.args.pair, crowdfundingAbi, alchemyProvider)
    
-       const userDonations = await contractPair.donations((await provider.getSigner()).address)
+       const userDonations = await contractPair.donations((signer.address))
        setUserDonations(Math.round(Number(userDonations)))  
  
        const owner = await contractPair.owner()
@@ -90,7 +90,7 @@ export default function page({params}) {
         const isCompleted = await contractPair.isCompleted()
         setCrowdfundingCompleted(isCompleted)
 
-        const balance = await provider.getBalance(crowdfunding?.args[1])
+        const balance = await alchemyProvider.getBalance(crowdfunding?.args[1])
         setBalance(Number(ethers.formatEther(balance)))
        
         const date = new Date(Number(crowdfunding.args[3]) * 1000)
@@ -166,7 +166,7 @@ export default function page({params}) {
     useEffect(() => {
         retrieveData();
         setLoading(false)
-    },[provider])
+    },[alchemyProvider])
 
     return(
         <div>

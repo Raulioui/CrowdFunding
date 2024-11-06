@@ -11,12 +11,12 @@ import {useMetaMask} from "../../../context/Web3Connect"
 export default function crowdfundingRequests() {
     const [requests, setRequests] = useState([])
     const [requestsConfirmed, setRequestsConfirmed] = useState([])
-    const {provider} = useMetaMask()
+    const {alchemyProvider} = useMetaMask()
 
     const [loading, setLoading] = useState(true)
 
     async function getCrowdfudningsRequests() {
-        const contract = new ethers.Contract("0x1c5fc443B990002d34d7711Ddcc3C436C9219826", quequeAbi, provider);
+        const contract = new ethers.Contract("0x1c5fc443B990002d34d7711Ddcc3C436C9219826", quequeAbi, alchemyProvider);
 
         const filterRequests = contract.filters.ProyectRequested()
         const eventsRequests = await contract.queryFilter(filterRequests)
@@ -32,7 +32,7 @@ export default function crowdfundingRequests() {
     useEffect(() => {
         getCrowdfudningsRequests()
         setLoading(false)
-    },[provider])
+    },[alchemyProvider])
 
     if(loading) return <Loader />
 

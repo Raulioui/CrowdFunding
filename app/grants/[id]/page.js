@@ -26,10 +26,10 @@ export default function Page({params}) {
     const [quequeAddress, setQuequeAddress] = useState()
     const [date, setDate] = useState()
     const [amountToShare, setAmountToShare] = useState(0)
-    const {provider} = useMetaMask()
+    const {alchemyProvider} = useMetaMask()
 
     async function retrieveData() {
-        const contract = new ethers.Contract(id, grantAbi, provider);
+        const contract = new ethers.Contract(id, grantAbi, alchemyProvider);
 
         const filterProyectsExecuted = contract.filters.ProyectAccepted()
         const proyectsExecuted = await contract.queryFilter(filterProyectsExecuted)
@@ -45,7 +45,7 @@ export default function Page({params}) {
         const fundDistributed = await contract.queryFilter(filterFundDistributed)
         setAmountShared(Number(fundDistributed[0]?.args.totalAmountDistributed))
         
-        const amountToShare = await provider.getBalance(id)
+        const amountToShare = await alchemyProvider.getBalance(id)
         setAmountToShare(ethers.formatEther(amountToShare.toString())) 
 
         const status = await contract.fundingStatus()
@@ -82,7 +82,7 @@ export default function Page({params}) {
     useEffect(() => {
         retrieveData();
         setLoading(false)
-    },[provider])
+    },[alchemyProvider])
 
     if(loading) {
         return <Loader/>

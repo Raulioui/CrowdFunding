@@ -35,7 +35,7 @@ export default function RequestForm({isCrowdfundig, pair}) {
     const dispatch = useNotification()
     const router = useRouter()
 
-    const {provider, signer} = useMetaMask()
+    const {alchemyProvider, signer} = useMetaMask()
     const [step, setStep] = useState(1);
   
     const handleNextStep = () => {
@@ -240,7 +240,7 @@ export default function RequestForm({isCrowdfundig, pair}) {
           .then(res => res.json())
           .then(dat => setConversion(dat?.data.priceUsd))
         setLoading(false)
-    },[provider])
+    },[alchemyProvider])
 
     if(loading) return <Loader />
 
