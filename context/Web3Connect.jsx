@@ -89,7 +89,6 @@ export const MetaMaskProvider = ({ children }) => {
 
                     setProvider(browserProvider);
                     const signer = await browserProvider.getSigner();
-                  
                     const address = await signer.getAddress()
             
                     setSigner(signer);
