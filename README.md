@@ -1,4 +1,4 @@
-URL: https://crowdfunding-c7d95.web.app/
+URL: https://quadraticcrowdfunding.vercel.app/
 
 
 
