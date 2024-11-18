@@ -32,7 +32,7 @@ export default function page({params}) {
         const res = await fetch(`https://ipfs.io/ipfs/${hashStr}`)
         const data = await res.json(); 
 
-        const contract = new ethers.Contract("0x1c5fc443B990002d34d7711Ddcc3C436C9219826", quequeAbi, alchemyProvider);
+        const contract = new ethers.Contract("0x0F55Ed7b742D20e1acE68Ef725bB1869bE11EE13", quequeAbi, alchemyProvider);
         
         const filterRequests = contract.filters.ProyectRequested()
         const eventsVotes = await contract.queryFilter(filterRequests)
@@ -48,7 +48,7 @@ export default function page({params}) {
 
     async function handleApprove(id) {
         setLoading(true)
-        const contract = new ethers.Contract ("0x1c5fc443B990002d34d7711Ddcc3C436C9219826", quequeAbi, signer);
+        const contract = new ethers.Contract ("0x0F55Ed7b742D20e1acE68Ef725bB1869bE11EE13", quequeAbi, signer);
         
         const tx = await contract.confirmTransaction(id)
         await tx.wait(1)

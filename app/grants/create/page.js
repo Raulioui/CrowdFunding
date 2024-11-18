@@ -52,7 +52,7 @@ export default function Page() {
 
     async function handleQFCreation(bytes32) {
         setLoading(true)
-        const contract = new ethers.Contract("0x4402f4cAF0912431C60e9528D1e365cb3d16d208", factoryAbi, signer)
+        const contract = new ethers.Contract("0x2BB71881b00af8Eb3357d7809515b98AeE796206", factoryAbi, signer)
         const tx = await contract.deployGrant(bytes32, candidates, ["0x13FFba08c4C6636062c4fD812A97a67EAfc2Fe2B","0x9a25776f75119E6345f4B04BEe675b408e244485"], 1)
         await tx.wait(1)
         if(tx) {

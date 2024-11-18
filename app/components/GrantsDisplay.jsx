@@ -15,7 +15,7 @@ export default function grants() {
     const retrieveData = () => {
         setTimeout(async () => {
             if(alchemyProvider) {
-                const contract = new ethers.Contract("0x4402f4cAF0912431C60e9528D1e365cb3d16d208", factoryAbi, alchemyProvider);
+                const contract = new ethers.Contract("0x2BB71881b00af8Eb3357d7809515b98AeE796206", factoryAbi, alchemyProvider);
   
                 const filter = contract.filters.GrantCreated()
                 const events = await contract.queryFilter(filter)

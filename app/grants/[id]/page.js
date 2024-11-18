@@ -26,7 +26,7 @@ export default function Page({params}) {
     const [quequeAddress, setQuequeAddress] = useState()
     const [date, setDate] = useState()
     const [amountToShare, setAmountToShare] = useState(0)
-    const {alchemyProvider} = useMetaMask()
+    const {alchemyProvider , signer} = useMetaMask()
 
     async function retrieveData() {
         const contract = new ethers.Contract(id, grantAbi, alchemyProvider);
@@ -77,6 +77,26 @@ export default function Page({params}) {
         }
  
         setProyectsExecuted(proyectsExecuted)
+    }
+
+    async function handleEndRequestPeriod(e) {
+        e.preventDefault()
+        setLoading(true)
+        const contract = new ethers.Contract(id, grantAbi, signer);
+        
+        const tx = await contract.endRequestPeriod()
+        await tx.wait(1)
+        if(tx) {
+            dispatch({
+                type: "success",
+                message: "Request period ended",
+                title: "Ended",
+                position: "topR",
+            })
+        } else {
+            throw new Error("Failed ending request period")
+        }
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -142,6 +162,11 @@ export default function Page({params}) {
                                 )}
                         </div>
                     </div>
+
+                    <button onClick={handleEndRequestPeriod} className="bg-[#232426] text-white px-8 py-2 rounded-md mt-12 hover:bg-[#232426] duration-100 ">
+                        End Request Period (only owner) 
+                    </button>
+
                 </div>
 
                 <Footer/>

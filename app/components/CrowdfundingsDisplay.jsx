@@ -33,7 +33,7 @@ export default function Crowdfundings() {
     const retrieveData = () => {
         setTimeout(async () => {
             if(alchemyProvider) {
-                const contract = new ethers.Contract("0x1c5fc443B990002d34d7711Ddcc3C436C9219826", quequeAbi, alchemyProvider);
+                const contract = new ethers.Contract("0x0F55Ed7b742D20e1acE68Ef725bB1869bE11EE13", quequeAbi, alchemyProvider);
                 const filterExecuted = contract.filters.ProyectExecuted()
                 const eventsExecuted = await contract.queryFilter(filterExecuted)
                 setRequestsExecuted(eventsExecuted)
