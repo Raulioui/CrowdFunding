@@ -1,4 +1,4 @@
-URL: https://quadraticcrowdfunding.vercel.app/
+URL: https://quadraticcrowdfunding.vercel.app/ - Only available in Arbitrum Sepolia
 
 
 
